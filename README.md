@@ -7,6 +7,12 @@
 
 > cd egm_tnp_analysis
 
+### Copy the puTrees using command below
+
+> xrdcp root://cms-xrd-global.cern.ch//store/group/phys_egamma/tnp/80X/pu/Winter17/DY_amcatnlo_Winter17_ele.pu.puTree.root .                                                                                                                        
+> xrdcp root://cms-xrd-global.cern.ch//store/group/phys_egamma/tnp/80X/pu/Winter17/DY_madgraph_Winter17_ele.pu.puTree.root .                     
+
+
 no compilation is required (this will auto compile the C++ code automatically) but you need ROOT and RooFit installed.
 
 This can be run on a laptop, does not require cmssw environment (still requires the setup to be run)

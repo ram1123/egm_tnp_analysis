@@ -4,32 +4,24 @@ from libPython.tnpClassUtils import tnpSample
 eosDir1 = 'eos/cms/store/group/phys_egamma/tnp/80X/PhoEleIDs/v1/'
 eosDir2 = 'eos/cms/store/group/phys_egamma/tnp/80X/PhoEleIDs/v2/'
 eosDirREC = 'eos/cms/store/group/phys_egamma/tnp/80X/RecoSF/RECOSFs_2016/'
-eosWinter17 = 'eos/cms/store/group/phys_egamma/tnp/80X/PhoEleIDs/Moriond17_v1/'
+eosWinter17 = '/eos/uscms/store/user/rasharma/TriggerEfficiency/Moriond17_GainSwitch_newTnP_v3/'
 Moriond17_80X = {
     ### MiniAOD TnP for IDs scale factors
-    'DY_madgraph'          : tnpSample('DY_madgraph',
-                                       eosWinter17 + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_DYToLL_madgraph_Spring16_reHLT.root',
-                                       isMC = True, nEvts = -1 ),
     'DY_madgraph_Winter17' : tnpSample('DY_madgraph_Winter17', 
-                                       eosWinter17 + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_DYToLL_madgraph_Moriond17.root',
-                                       isMC = True, nEvts = 48652793 ),
-    'DYee_powheg_Winter17' : tnpSample('DYee_powheg_Winter17', 
-                                       eosWinter17 + 'mc/TnPTree_DYToEE_NNPDF30_13TeV-powheg-pythia8_DYToEE_powheg_Moriond17.root',
-                                       isMC = True, nEvts = 49986588 ),
+                                       eosWinter17 + 'mc/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root',
+                                       isMC = True, nEvts = 49144274),
     'DY_amcatnlo_Winter17' : tnpSample('DY_amcatnlo_Winter17', 
-                                       eosWinter17 + 'mc/TnPTree_DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_DYToLL_mcAtNLO_Moriond17.root',
-                                       isMC = True, nEvts = 28968252 ),
-    'Wj_madgraph_Winter17' : tnpSample('Wj_madgraph_Winter17', 
-                                       eosWinter17 + 'mc/TnPTree_WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_WJets_madgraph_Moriond17.root',
-                                       isMC = True, nEvts = 29048609 ),
+                                       eosWinter17 + 'mc/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root',
+                                       isMC = True, nEvts = 28696958 ),
 
-    'data_Run2016B' : tnpSample('data_Run2016B' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunB.root' , lumi = 5.767 ),
-    'data_Run2016C' : tnpSample('data_Run2016C' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunC.root' , lumi = 2.646 ),
-    'data_Run2016D' : tnpSample('data_Run2016D' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunD.root' , lumi = 4.353 ),
-    'data_Run2016E' : tnpSample('data_Run2016E' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunE.root' , lumi = 3.985 ),
-    'data_Run2016F' : tnpSample('data_Run2016F' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunF.root' , lumi = 3.160 ),
-    'data_Run2016G' : tnpSample('data_Run2016G' , eosWinter17 + 'data/TnPTree_SingleElectron_2016rereco_RunG.root' , lumi = 7.539 ),
-    'data_Run2016H' : tnpSample('data_Run2016H' , eosWinter17 + 'data/TnPTree_SingleElectron_2016prompt_RunH.root' , lumi = 8.762 ),
+    'data_Run2016B' : tnpSample('data_Run2016B' , eosWinter17 + 'data/SingleElectron/crab_2016rereco_RunB_v3.root' , lumi = 5.785 ),
+    'data_Run2016C' : tnpSample('data_Run2016C' , eosWinter17 + 'data/SingleElectron/crab_2016rereco_RunC.root' , lumi = 2.573 ),
+    'data_Run2016D' : tnpSample('data_Run2016D' , eosWinter17 + 'data/SingleElectron/crab_2016rereco_RunD.root' , lumi = 4.248 ),
+    'data_Run2016E' : tnpSample('data_Run2016E' , eosWinter17 + 'data/SingleElectron/crab_2016rereco_RunE.root' , lumi = 4.009 ),
+    'data_Run2016F' : tnpSample('data_Run2016F' , eosWinter17 + 'data/SingleElectron/crab_2016rereco_RunF.root' , lumi = 3.102 ),
+    'data_Run2016G' : tnpSample('data_Run2016G' , eosWinter17 + 'data/SingleElectron/crab_2016rereco_RunG.root' , lumi = 7.54 ),
+    'data_Run2016H2' : tnpSample('data_Run2016H' , eosWinter17 + 'data/SingleElectron/crab_2016prompt_RunHv2.root' , lumi = 8.390 ),
+    'data_Run2016H3' : tnpSample('data_Run2016H' , eosWinter17 + 'data/SingleElectron/crab_2016prompt_RunHv3.root' , lumi = 0.215 ),
 
     
 
