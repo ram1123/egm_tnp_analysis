@@ -91,7 +91,7 @@ biningDef = [
 ########## Cuts definition for all samples
 #############################################################
 ### cut
-cutBase   = 'tag_Ele_pt > 30 && abs(tag_sc_eta) < 2.17 && el_q*tag_Ele_q < 0'
+cutBase   = 'tag_Ele_pt > 35 && abs(tag_sc_eta) < 2.17 && el_q*tag_Ele_q < 0'
 
 # can add addtionnal cuts for some bins (first check bin number using tnpEGM --checkBins)
 additionalCuts = { 
