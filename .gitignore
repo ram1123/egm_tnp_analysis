@@ -1,0 +1,6 @@
+*.pcm
+*.d
+*.so
+*.pyc
+results/*
+*.txt
