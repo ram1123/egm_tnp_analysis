@@ -12,14 +12,17 @@ import efficiencyUtils as effUtil
 tdrstyle.setTDRStyle()
 
 
-effiMin = 0.2
-effiMax = 1.3
+effiMin = 0.5
+effiMax = 1.05
 
 #sfMin = 0.78
 #sfMax = 1.12
-
-sfMin = 0.79
-sfMax = 1.1
+#sfMin = 0.875
+#sfMax = 1.22
+sfMin = 0.48
+sfMax = 1.12
+#sfMin = 0.58
+#sfMax = 1.12
 
 
 def isFloat( myFloat ):
@@ -31,11 +34,14 @@ def isFloat( myFloat ):
 
 
 
-graphColors = [rt.kBlack, rt.kGray+1, rt.kRed +1, rt.kRed-2, rt.kAzure+2, rt.kAzure-1, 
+#graphColors = [rt.kBlack, rt.kGray+1, rt.kRed +1, rt.kRed-2, rt.kAzure+2, rt.kAzure-1, 
+#               rt.kSpring-1, rt.kYellow -2 , rt.kYellow+1,
+#               rt.kBlack, rt.kBlack, rt.kBlack, 
+#               rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack ]
+graphColors = [rt.kBlack, rt.kGray+1, rt.kRed-2, rt.kAzure+2, rt.kAzure-1,
                rt.kSpring-1, rt.kYellow -2 , rt.kYellow+1,
-               rt.kBlack, rt.kBlack, rt.kBlack, 
+               rt.kBlack, rt.kBlack, rt.kBlack,
                rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack ]
-
 
 
 
@@ -106,7 +112,8 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     p1.SetLeftMargin( c.GetLeftMargin() )
     p2.SetLeftMargin( c.GetLeftMargin() )
     firstGraph = True
-    leg = rt.TLegend(0.5,0.80,0.95 ,0.92)
+    leg = rt.TLegend(0.5,0.82,0.9 ,0.92)
+    #leg = rt.TLegend(0.5,0.52,0.95, 0.62)
     leg.SetFillColor(0)
     leg.SetBorderSize(0)
 
@@ -137,7 +144,7 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
     effiMax = effminmax[1]
 
     sfminmax =  findMinMax( sfList )
-    sfMin = sfminmax[0]
+    #sfMin = sfminmax[0]
 #    sfMin = 0.94
 #    sfMax = 1.02
 
@@ -182,9 +189,11 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
         grBinsEffData.GetHistogram().GetYaxis().SetTitleOffset(1)
         grBinsEffData.GetHistogram().GetYaxis().SetTitle("Data efficiency" )
 #        grBinsEffData.GetHistogram().GetYaxis().SetRangeUser( effiMin, effiMax )
-        grBinsEffData.GetHistogram().GetYaxis().SetRangeUser( 0.15,1.35)
-
-            
+        #grBinsEffData.GetHistogram().GetYaxis().SetRangeUser( 0.15,1.35)
+        #grBinsEffData.GetHistogram().GetYaxis().SetRangeUser( 0.505,1.05)
+        grBinsEffData.GetHistogram().GetYaxis().SetRangeUser( 0.38,1.37)
+        #grBinsEffData.GetHistogram().GetYaxis().SetRangeUser( 0.28,1.07)
+    
         ### to avoid loosing the TGraph keep it in memory by adding it to a list
         listOfTGraph1.append( grBinsEffData )
         listOfTGraph2.append( grBinsSF ) 
@@ -212,9 +221,9 @@ def EffiGraph1D(effDataList, effMCList, sfList ,nameout, xAxis = 'pT', yAxis = '
         if not listOfMC[use_igr] is None:
             listOfMC[use_igr].SetLineColor(graphColors[use_igr])
             #        listOfTGraph1[use_igr].GetHistogram().SetMinimum(effiMin)
-        listOfTGraph1[use_igr].GetHistogram().SetMinimum(0.15)
+        listOfTGraph1[use_igr].GetHistogram().SetMinimum(0.38)#(0.28)#(0.38)#(0.505)#(0.15)
 #        listOfTGraph1[use_igr].GetHistogram().SetMaximum(effiMax)
-        listOfTGraph1[use_igr].GetHistogram().SetMaximum(1.35)
+        listOfTGraph1[use_igr].GetHistogram().SetMaximum(1.37)#(1.07)#(1.37)#(1.05)#(1.35)
         p1.cd()
         
         listOfTGraph1[use_igr].Draw(option)
