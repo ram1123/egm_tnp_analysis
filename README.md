@@ -1,3 +1,15 @@
+   * [egm_tnp_analysis](#egm_tnp_analysis)
+      * [Install stable branch](#install-stable-branch)
+      * [Quick description](#quick-description)
+      * [The different fitting steps](#the-different-fitting-steps)
+      * [The settings file](#the-settings-file)
+      * [Changes for UL preparation:](#changes-for-ul-preparation)
+      * [Update PU weights](#update-pu-weights)
+            * [adding remote (Fabrice version)](#adding-remote-fabrice-version)
+      * [Save all fit parameters](#save-all-fit-parameters)
+
+----
+
 # egm_tnp_analysis
 
 
@@ -195,3 +207,28 @@ export  PYTHONPATH=$PYTHONPATH:/afs/cern.ch/user/s/soffi/scratch0/TEST/CMSSW-10-
 
 #### adding remote (Fabrice version)
 git remote add origin git@github.com:fcouderc/egm_tnp_analysis.git
+
+## Save all fit parameters
+
+If we want to save all the fit parameters for the failed fits also. Then we need to add a file having dictionary of dictionaries in path `etc/config/fitPars/`.
+
+If your setting file name is `settings_pho_UL2017.py` then you should create a file named `settings_pho_UL2017_fitPars.py` in path `etc/config/fitPars/`. If `tnpEGM_fitter.py` does not finds this file then it will just use the default fit parameters given in `settings_pho_UL2017.py`.
+
+The file format should be
+```python
+fitpars_perbin = {
+   -1: {
+      'tnpParNomFit': ["meanP[-0.0,-5.0,5.0]","sigmaP[0.9,0.5,5.0]"],
+      'tnpParAltSigFit' : ["meanP[-0.0,-5.0,5.0]","sigmaP[1,0.7,6.0],
+      ''tnpParAltBkgFit' : ["meanP[-0.0,-5.0,5.0]","sigmaP[0.9,0.5,5.0]
+      },
+   45: {
+      'tnpParNomFit': ["meanP[-0.0,-5.0,5.0]","sigmaP[0.9,0.5,5.0]"],
+      'tnpParAltSigFit' : ["meanP[-0.0,-5.0,5.0]","sigmaP[1,0.7,6.0],
+      ''tnpParAltBkgFit' : ["meanP[-0.0,-5.0,5.0]","sigmaP[0.9,0.5,5.0]
+      },
+}
+```
+Where -1 and 45 are the bin numbers.
+
+If there is no `--iBin` option given to `tnpEGM_fitter.py` then the given dictionary of dictionaries will use the parameters corresponding to the key `-1` of dictionary `fitpars_perbin`. Otherwise it needs the appropriate key (I mean the bin number) as given to the option `--iBin`.

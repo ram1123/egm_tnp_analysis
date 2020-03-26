@@ -142,7 +142,29 @@ if  args.doFit:
             elif args.altBkg:
                 tnpRoot.histFitterAltBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltBkgFit )
             else:
-                tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFit )
+                # Get setting file name
+                head, tail = os.path.split(args.settings) 
+                if not os.path.isfile('etc/config/fitPars/'+(tail).replace('.py','_fitPars.py')):
+                   print "\n===> Using default fit parameters as given in ",args.settings,"file."
+                   tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFit )
+                else:
+                   # Add fitPars directory to the path, so that we can import the dictionary
+                   sys.path.append(os.path.abspath("etc/config/fitPars")) 
+                   # import fit parameter dictionary
+                   importSetting4Fit = 'import %s_fitPars as dynamic_fit_pars' % tail.replace('/','.').split('.py')[0]  
+                   print importSetting4Fit
+                   exec(importSetting4Fit)
+                   #import settings_pho_UL2017_fitPars as dynamic_fit_pars
+                   print "="*20,"\t bin number = ",args.binNumber
+                   if not args.binNumber in dynamic_fit_pars.fitpars_perbin.keys():
+                     print "Parameters for bin number ",args.binNumber," does not exists."
+                     print "Please check if the file name ",tail+"_fitPars.py exists in directory etc/config/fitPars"
+                     print "If this file does not exists please create one in the recommended format"
+                     sys.exit()
+                   tnp_dynamic_fit_pars = dynamic_fit_pars.fitpars_perbin[args.binNumber]['tnpParNomFit']
+                   print "tnp_dynamic_fit_pars = \n",tnp_dynamic_fit_pars
+                   print "="*20
+                   tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnp_dynamic_fit_pars )
 
     args.doPlot = True
      
