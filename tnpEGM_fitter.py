@@ -178,7 +178,6 @@ if  args.doFit:
                  print "tnp_dynamic_Nomfit_pars = \n",tnp_dynamic_Nomfit_pars
                  print "="*20
                  tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnp_dynamic_Nomfit_pars )
-
     args.doPlot = True
      
 ####################################################################

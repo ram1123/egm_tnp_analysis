@@ -282,6 +282,8 @@ def diagnosticErrorPlot( effgr, ierror, nameout ):
     listName = nameout.split('/')
     for iext in ["pdf","C","png"]:
         c2D_Err.SaveAs(nameout.replace('egammaEffi.txt_egammaPlots',listName[-6].replace('tnp','')+'_SF2D'+'_'+errorNames[ierror]+listName[-3]).replace('pdf',iext))
+    
+    return h2_sfErrorAbs
 
 def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     print " Opening file: %s (plot lumi: %3.1f)" % ( filein, lumi )
@@ -392,13 +394,14 @@ def doEGM_SFs(filein, lumi, axis = ['pT','eta'] ):
     h2EffMC  .Write('EGamma_EffMC2D'  ,rt.TObject.kOverwrite)
     for igr in range(len(listOfSF1D)):
         listOfSF1D[igr].Write( 'grSF1D_%d' % igr, rt.TObject.kOverwrite)
-    rootout.Close()
 
-    for isyst in range(len(efficiency.getSystematicNames())):
-        diagnosticErrorPlot( effGraph, isyst, pdfout )
 
+    errorNames = efficiency.getSystematicNames()
+    for isyst in range(len(errorNames)):
+        h2_isyst = diagnosticErrorPlot( effGraph, isyst, pdfout )
+        h2_isyst.Write( errorNames[isyst],rt.TObject.kOverwrite)
     cDummy.Print( pdfout + "]" )
-
+    rootout.Close()
 
 
 if __name__ == "__main__":

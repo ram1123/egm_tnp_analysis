@@ -46,7 +46,7 @@ def createWorkspaceForAltSig( sample, tnpBin, tnpWorkspaceParam ):
     fitresP = filemc.Get( '%s_resP' % tnpBin['name']  )
     fitresF = filemc.Get( '%s_resF' % tnpBin['name'] )
 
-    listOfParam = ['nF','alphaF','nP','alphaP','sigmaP','sigmaF','sigmaP_2','sigmaF_2']
+    listOfParam = ['nF','alphaF','nP','alphaP','sigmaP','sigmaF','sigmaP_2','sigmaF_2','meanGF','sigmaGF']
     
     fitPar = fitresF.floatParsFinal()
     for ipar in range(len(fitPar)):
@@ -143,6 +143,7 @@ def histFitterAltSig( sample, tnpBin, tnpWorkspaceParam ):
         "tailLeft[1]",
         "RooCBExGaussShape::sigResPass(x,meanP,expr('sqrt(sigmaP*sigmaP+sosP*sosP)',{sigmaP,sosP}),alphaP,nP, expr('sqrt(sigmaP_2*sigmaP_2+sosP*sosP)',{sigmaP_2,sosP}),tailLeft)",
         "RooCBExGaussShape::sigResFail(x,meanF,expr('sqrt(sigmaF*sigmaF+sosF*sosF)',{sigmaF,sosF}),alphaF,nF, expr('sqrt(sigmaF_2*sigmaF_2+sosF*sosF)',{sigmaF_2,sosF}),tailLeft)",
+        "Gaussian::sigResFailG(x,meanGF,sigmaGF)",
         "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
         "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
         ]
@@ -177,12 +178,12 @@ def histFitterAltSig( sample, tnpBin, tnpWorkspaceParam ):
     workspace = rt.vector("string")()
     for iw in tnpWorkspace:
         workspace.push_back(iw)
-    fitter.setWorkspace( workspace )
+    fitter.setWorkspace( workspace, 1 )
 
     title = tnpBin['title'].replace(';',' - ')
     title = title.replace('probe_sc_eta','#eta_{SC}')
     title = title.replace('probe_Ele_pt','p_{T}')
-    fitter.fits(sample.mcTruth,title)
+    fitter.fits(sample.mcTruth,title, 1)
 
     rootfile.Close()
 
