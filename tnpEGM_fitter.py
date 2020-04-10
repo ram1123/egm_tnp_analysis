@@ -15,6 +15,7 @@ parser.add_argument('--createBins' , action='store_true'  , help = 'create binin
 parser.add_argument('--createHists', action='store_true'  , help = 'create histograms')
 parser.add_argument('--sample'     , default='all'        , help = 'create histograms (per sample, expert only)')
 parser.add_argument('--altSig'     , action='store_true'  , help = 'alternate signal model fit')
+parser.add_argument('--addGaus'    , action='store_true'  , help = 'add gaussian to alternate signal model failing probe')
 parser.add_argument('--altBkg'     , action='store_true'  , help = 'alternate background model fit')
 parser.add_argument('--doFit'      , action='store_true'  , help = 'fit sample (sample should be defined in settings.py)')
 parser.add_argument('--mcSig'      , action='store_true'  , help = 'fit MC nom [to init fit parama]')
@@ -143,8 +144,10 @@ if  args.doFit:
            head, tail = os.path.split(args.settings) 
            if not os.path.isfile('etc/config/fitPars/'+(tail).replace('.py','_fitPars.py')):
               print "\n===> Using default fit parameters as given in ",args.settings,"file."
-              if args.altSig:
+              if args.altSig and not args.addGaus:
                  tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit )
+              elif args.altSig and args.addGaus:
+                 tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit_addGaus, 1)
               elif args.altBkg:
                  tnpRoot.histFitterAltBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltBkgFit )
               else:
@@ -163,11 +166,16 @@ if  args.doFit:
                  print "Please check if the file name ",tail+"_fitPars.py exists in directory etc/config/fitPars"
                  print "If this file does not exists please create one in the recommended format"
                  sys.exit()
-              if args.altSig:
+              if args.altSig  and not args.addGaus:
                  tnp_dynamic_AltSigfit_pars = dynamic_fit_pars.fitpars_perbin[args.binNumber]['tnpParAltSigFit']
                  print "tnp_dynamic_AltSigfit_pars = \n",tnp_dynamic_AltSigfit_pars
                  print "="*20
                  tnpRoot.histFitterAltSig( sampleToFit, tnpBins['bins'][ib], tnp_dynamic_AltSigfit_pars)
+              elif args.altSig and args.addGaus:
+                 tnp_dynamic_AltSigfit_pars = dynamic_fit_pars.fitpars_perbin[args.binNumber]['tnpParAltSigFit_addGaus']
+                 print "tnp_dynamic_AltSigfit_pars = \n",tnp_dynamic_AltSigfit_pars
+                 print "="*20
+                 tnpRoot.histFitterAltSig( sampleToFit, tnpBins['bins'][ib], tnp_dynamic_AltSigfit_pars, 1)
               elif args.altBkg:
                  tnp_dynamic_AltBkgfit_pars = dynamic_fit_pars.fitpars_perbin[args.binNumber]['tnpParAltBkgFit']
                  print "tnp_dynamic_AltBkgfit_pars = \n",tnp_dynamic_AltBkgfit_pars

@@ -46,7 +46,7 @@ def createWorkspaceForAltSig( sample, tnpBin, tnpWorkspaceParam ):
     fitresP = filemc.Get( '%s_resP' % tnpBin['name']  )
     fitresF = filemc.Get( '%s_resF' % tnpBin['name'] )
 
-    listOfParam = ['nF','alphaF','nP','alphaP','sigmaP','sigmaF','sigmaP_2','sigmaF_2','meanGF','sigmaGF']
+    listOfParam = ['nF','alphaF','nP','alphaP','sigmaP','sigmaF','sigmaP_2','sigmaF_2','meanGF','sigmaGF', 'sigFracF']
     
     fitPar = fitresF.floatParsFinal()
     for ipar in range(len(fitPar)):
@@ -135,7 +135,7 @@ def histFitterNominal( sample, tnpBin, tnpWorkspaceParam ):
 #############################################################
 ########## alternate signal fitter
 #############################################################
-def histFitterAltSig( sample, tnpBin, tnpWorkspaceParam ):
+def histFitterAltSig( sample, tnpBin, tnpWorkspaceParam, isaddGaus=0 ):
 
     tnpWorkspacePar = createWorkspaceForAltSig( sample,  tnpBin, tnpWorkspaceParam )
 
@@ -143,10 +143,13 @@ def histFitterAltSig( sample, tnpBin, tnpWorkspaceParam ):
         "tailLeft[1]",
         "RooCBExGaussShape::sigResPass(x,meanP,expr('sqrt(sigmaP*sigmaP+sosP*sosP)',{sigmaP,sosP}),alphaP,nP, expr('sqrt(sigmaP_2*sigmaP_2+sosP*sosP)',{sigmaP_2,sosP}),tailLeft)",
         "RooCBExGaussShape::sigResFail(x,meanF,expr('sqrt(sigmaF*sigmaF+sosF*sosF)',{sigmaF,sosF}),alphaF,nF, expr('sqrt(sigmaF_2*sigmaF_2+sosF*sosF)',{sigmaF_2,sosF}),tailLeft)",
-        "Gaussian::sigResFailG(x,meanGF,sigmaGF)",
         "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
         "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
         ]
+    if isaddGaus==1:
+        tnpWorkspaceFunc += [ "Gaussian::sigGaussFail(x,meanGF,sigmaGF)", ]
+        if sample.isMC:
+            tnpWorkspaceFunc += [ "sigFracF[0.5,0.0,1.0]", ]
 
     tnpWorkspace = []
     tnpWorkspace.extend(tnpWorkspacePar)
@@ -178,12 +181,12 @@ def histFitterAltSig( sample, tnpBin, tnpWorkspaceParam ):
     workspace = rt.vector("string")()
     for iw in tnpWorkspace:
         workspace.push_back(iw)
-    fitter.setWorkspace( workspace, 1 )
+    fitter.setWorkspace( workspace, isaddGaus )
 
     title = tnpBin['title'].replace(';',' - ')
     title = title.replace('probe_sc_eta','#eta_{SC}')
     title = title.replace('probe_Ele_pt','p_{T}')
-    fitter.fits(sample.mcTruth,title, 1)
+    fitter.fits(sample.mcTruth,title, isaddGaus)
 
     rootfile.Close()
 
