@@ -155,8 +155,9 @@ if  args.doFit:
            else:
               # Add fitPars directory to the path, so that we can import the dictionary
               sys.path.append(os.path.abspath("etc/config/fitPars")) 
-              # import fit parameter dictionary
-              importSetting4Fit = 'import %s_fitPars as dynamic_fit_pars' % tail.replace('/','.').split('.py')[0]  
+              # Below line import fit parameter dictionary
+              # fit parameters file format should be like: <setting-conf-file>_<flag>_fitPars.py
+              importSetting4Fit = 'import %s_%s_fitPars as dynamic_fit_pars' % (tail.replace('/','.').split('.py')[0], args.flag) 
               print importSetting4Fit
               exec(importSetting4Fit)
               #import settings_pho_UL2017_fitPars as dynamic_fit_pars
