@@ -142,7 +142,7 @@ if  args.doFit:
         if (args.binNumber >= 0 and ib == args.binNumber) or args.binNumber < 0:
            # Get setting file name
            head, tail = os.path.split(args.settings) 
-           if not os.path.isfile('etc/config/fitPars/'+(tail).replace('.py','_fitPars.py')):
+           if not os.path.isfile('etc/config/fitPars/'+(tail).replace('.py','_'+args.flag+'_fitPars.py')):
               print "\n===> Using default fit parameters as given in ",args.settings,"file."
               if args.altSig and not args.addGaus:
                  tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit )
